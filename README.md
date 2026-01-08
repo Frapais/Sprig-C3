@@ -59,7 +59,7 @@ Inside the [Home Assistant Setup](Home%20Assistant%20Setup) folder, you will fin
 * Installed [Arduino IDE](https://www.arduino.cc/en/software/) on your PC.
 
 #### Main process:
-1. Download the provided [Arduino scetch](Home%20Assistant%20Setup/MQTT%20Setup/Sprig_mqtt_basic.ino) and the corresponding [secrets.h](Home%20Assistant%20Setup/MQTT%20Setup/secrets.h) header file.
+1. Download the provided [Arduino scetch](Home%20Assistant%20Setup/MQTT%20Setup/Sprig_mqtt_basic/Sprig_mqtt_basic.ino) and the corresponding [secrets.h](Home%20Assistant%20Setup/MQTT%20Setup/Sprig_mqtt_basic/secrets.h) header file.
 2. Open the `secrets.h` and replace the contents with your WiFi and your MQTT server credentials.
 3. Connect your Sprig-C3 to your PC via USB and select the detected COM port from the Arduino IDE.
 4. Upload the code to the Sprig-C3.
