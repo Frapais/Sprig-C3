@@ -59,7 +59,7 @@ Inside the [Home Assistant Setup](Home%20Assistant%20Setup) folder, you will fin
 * Installed [Arduino IDE](https://www.arduino.cc/en/software/) on your PC.
 
 #### Main process:
-1. Download the provided [Arduino scetch](Home%20Assistant%20Setup/MQTT%Setup/Sprig_mqtt_basic.ino) and the corresponding [secrets.h](Home%20Assistant%20Setup/MQTT%Setup/secrets.h) header file.
+1. Download the provided [Arduino scetch](Home%20Assistant%20Setup/MQTT%20Setup/Sprig_mqtt_basic.ino) and the corresponding [secrets.h](Home%20Assistant%20Setup/MQTT%20Setup/secrets.h) header file.
 2. Open the `secrets.h` and replace the contents with your WiFi and your MQTT server credentials.
 3. Connect your Sprig-C3 to your PC via USB and select the detected COM port from the Arduino IDE.
 4. Upload the code to the Sprig-C3.
@@ -68,14 +68,14 @@ Inside the [Home Assistant Setup](Home%20Assistant%20Setup) folder, you will fin
 
   
 ## Availability
-You can get the assembled boards in my [Tindie](https://www.tindie.com/products/34523/), [Elecrow](https://www.elecrow.com/nanocell-c3.html), or my [official website](https://sprig-labs.com/) stores.
+You can get the assembled boards in my [Tindie](https://www.tindie.com/products/34523/), [Lectronz](https://lectronz.com/products/sprig-c3-esp32-development-board), [Elecrow](https://www.elecrow.com/nanocell-c3.html), or my [official website](https://sprig-labs.com/store) stores.
 
 <a href="https://www.tindie.com/stores/spriglabs/?ref=offsite_badges&utm_source=sellers_Frapais&utm_medium=badges&utm_campaign=badge_large"><img src="https://d2ss6ovg47m0r5.cloudfront.net/badges/tindie-larges.png" alt="I sell on Tindie" width="200" height="104"></a>
 
 ## Certifications
-This project is certified by the [Open Source Hardware Association (OSHWA)](https://certification.oshwa.org/gr000008.html)
+This project is certified by the [Open Source Hardware Association (OSHWA)](https://certification.oshwa.org/gr000010.html)
 
-<img src="PCB/Certifications/certification-mark-GR000008-stacked.png" alt="Open Source Hardware Association Certification" width="300" allign="left"/>
+<img src="PCB/Certifications/certification-mark-GR000010-stacked.png" alt="Open Source Hardware Association Certification" width="300" allign="left"/>
 
 
 
@@ -89,7 +89,7 @@ If you find this project useful, please consider supporting me on any of the fol
 * Buy Me a Coffe:
   * <a href="https://www.buymeacoffee.com/spriglabs" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px     3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 * Instagram:
-  * [@frapais.lab](https://www.instagram.com/sprig_labs/)
+  * [@sprig_labs](https://www.instagram.com/sprig_labs/)
 
 
 
