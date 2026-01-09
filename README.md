@@ -28,6 +28,31 @@ This is the repository of the **Sprig-C3** project. An ESP32 development board m
 
 The Idle Power Consumption image shows the consumption of all the components of the board except the ESP32 module, as its consumption fluctuates depending on the tasks it's running. Therefore, if you want to calculate the battery life of your project, you should expect at least **66μA** of current, in addition to the current consumption of the ESP32 module.
 
+### Power cycle energy tests
+The following tests measured the total power consumption of the Sprig-C3 while in **deep-sleep** mode, and the average power consumption when **active**.
+For the deep sleep mode, a multimeter set to uA was used, monitoring the current consumption of the Sprig-C3 powered from an 18650 Li-Ion cell at 4.118V.
+For the active mode, due to the erradic changes in current consumption, an Oscilloscope was used instead of a multimeter. It measured the average current consumprion during the board's active mode, as well as the exact time this mode lasted.
+
+#### The board was programmed to do the following routine:
+- Wake up and connect to WiFi
+- Read internal fuel-gauge IC
+- Post the values to a server via WiFi
+- Enter Deep-Sleep for 10 minutes.
+
+#### Results:
+- Deep sleep current: 68 uA
+- Deep sleep power: 0.28 mW
+- Active average power: 11.424 mW
+- Active duration: 6.293 sec
+
+The table below shows some images from these tests.
+
+**Given these results, the Sprig-C3 following this routine could be powered by a 2000 mAh Li-Ion cell for about 1.5 Years.**
+
+| **Deep sleep current** | **Active event** |
+|------------------------|------------------|
+|<img src="Tests/IMG_20260109_164134.jpg" width="400">|<img src="Tests/active%20event0.png" width="400">                  |
+
 ### Home Assistant setup using ESPHome
 #### Requirements:
 * Access to Home Assistant Dashboard
