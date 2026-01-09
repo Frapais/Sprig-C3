@@ -201,8 +201,6 @@ void reconnect() {
       MQTT_client.subscribe(discoverySetTopic);
       // Publish discovery configuration (adds/updates entities)
       haDiscovery();
-      // Publish device IP for diagnostics
-      // publishDeviceIP();
       // Publish current discovery state (retained)
       MQTT_client.publish(discoveryStateTopic, (auto_discovery ? "ON" : "OFF"), true);
     } else {
@@ -257,6 +255,7 @@ void haDiscovery() {
     doc["dev_cla"] = "voltage";
     doc["val_tpl"] = "{{ value | float(2) }}";
     doc["frc_upd"] = true;
+    doc["ent_cat"] = "diagnostic";
     JsonObject device = doc.createNestedObject("device");
     device["ids"] = devUniqueID;
     device["name"] = "Sprig-C3 Battery Monitor";
@@ -282,33 +281,12 @@ void haDiscovery() {
     doc["dev_cla"] = "battery";
     doc["val_tpl"] = "{{ value | float(0) }}";
     doc["frc_upd"] = true;
+    doc["ent_cat"] = "diagnostic";
     JsonObject deviceL = doc.createNestedObject("device");
     deviceL["ids"] = devUniqueID;
     deviceL["name"] = "Sprig-C3 Battery Monitor";
     serializeJson(doc, buffer2);
     MQTT_client.publish(topic, buffer2, true);
-
-    // // DEVICE IP (diagnostic) - publish as a sensor so HA shows the device IP
-    // strcpy(topic, "homeassistant/sensor/");
-    // strcat(topic, devUniqueID);
-    // strcat(topic, "_ip/config");
-    // strcpy(uid, devUniqueID);
-    // strcat(uid, "_ip");
-    // char buffer3[512];
-    // doc.clear();
-    // doc["name"] = "Device IP";
-    // doc["obj_id"] = "device_ip";
-    // doc["uniq_id"] = uid;
-    // doc["stat_t"] = "sprigC3/deviceIP";
-    // doc["val_tpl"] = "{{ value }}";
-    // doc["ent_cat"] = "diagnostic";
-    // doc["frc_upd"] = true;
-    // JsonObject deviceIP = doc.createNestedObject("device");
-    // deviceIP["ids"] = devUniqueID;
-    // deviceIP["name"] = "Sprig-C3 Battery Monitor";
-    // serializeJson(doc, buffer3);
-    // MQTT_client.publish(topic, buffer3, true);
-
   } else {
     // Remove (publish empty payloads)
     strcpy(topic, "homeassistant/sensor/");
@@ -319,10 +297,6 @@ void haDiscovery() {
     strcat(topic, devUniqueID);
     strcat(topic, "_level/config");
     MQTT_client.publish(topic, "");
-    // strcpy(topic, "homeassistant/sensor/");
-    // strcat(topic, devUniqueID);
-    // strcat(topic, "_ip/config");
-    // MQTT_client.publish(topic, "");
   }
 }
 
@@ -355,8 +329,6 @@ void loop() {
   MQTT_client.loop();
   // Handle any incoming HTTP requests for runtime controls
   server.handleClient();
-  // Publish device IP when it changes
-  // publishDeviceIP();
   // Read and publish battery data every 5 seconds
   long now = millis();
   if (now - prev > 5000) {
@@ -402,15 +374,3 @@ void mqttCallback(char* topic, byte* payload, unsigned int length) {
     }
   }
 }
-
-// // Publish retained device IP when it changes (or when called)
-// void publishDeviceIP() {
-//   if (!MQTT_client.connected()) return;
-//   String ip = WiFi.localIP().toString();
-//   if (ip.length() == 0) return;
-//   String url = String("http://") + ip + "/discovery";
-//   if (url != lastPublishedIP) {
-//     lastPublishedIP = url;
-//     MQTT_client.publish("sprigC3/deviceIP", url.c_str(), true);
-//   }
-// }
