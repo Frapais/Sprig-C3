@@ -1,0 +1,144 @@
+esphome:
+  name: smart-air-filter
+  friendly_name: Smart Air Filter
+
+  libraries:
+    # Wire library is needed for the i2c protocol
+    - "Wire"
+  on_boot:
+    priority: 800.0 # Ensures it runs after vital hardware is initialized
+    then:
+      # On boot, set the fan to 100% to ensure it starts running immediately. This is crucial for air filtration and ensures that the system is actively filtering air as soon as it powers on.
+      - output.set_level:
+          id: fan_pin
+          level: 100%
+      - fan.turn_on: 
+          speed: 100
+          id: filter_fan
+          
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "a9CAy4PW4v+EYwmvG+tyZYoxj4L/i5v0CTC6DxqRUBYq"
+
+ota:
+  - platform: esphome
+    password: "4cf2eff692984afa3924078ef4af17g3"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Smart-Air-Filter"
+    password: "IQ9l5ELgVt2T"
+
+captive_portal:
+
+# I2C configuration for the air quality sensors (HDC1080 and ENS160) and the particle sensor (SPS30)
+i2c:
+- id: bus_a
+  sda: 2
+  scl: 3
+  scan: True
+
+# Decalaration of the GPIO that gives power to the fan.
+output:
+  - platform: ledc
+    pin: 20
+    id: fan_pin
+    frequency: "25000Hz"
+
+fan:
+  - platform: speed
+    output: fan_pin
+    id: filter_fan
+    restore_mode: ALWAYS_ON
+    name: "Filter Fan"
+
+sensor:
+# Air quality sensors
+  - platform: hdc1080
+    i2c_id: bus_a
+    temperature:
+      id: air_temp
+      name: "Air Temperature"
+    humidity:
+      id: air_hum
+      name: "Air Humidity"
+    address: 0x40
+    update_interval: 10s
+
+  - platform: ens160_i2c
+    eco2:
+      name: "ENS160 eCO2"
+    tvoc:
+      name: "ENS160 Total Volatile Organic Compounds"
+    aqi:
+      id: ens160_air_quality_index
+      name: "ENS160 Air Quality Index"
+    update_interval: 10s
+    address: 0x52
+    compensation:
+      temperature: air_temp
+      humidity: air_hum
+
+# Air particle sensor
+  - platform: sps30
+    pm_1_0:
+      name: "Room PM <1µm Weight concentration"
+      id: "room_PM_1_0"
+    pm_2_5:
+      name: "Room PM <2.5µm Weight concentration"
+      id: "room_PM_2_5"
+    pm_4_0:
+      name: "Room PM <4µm Weight concentration"
+      id: "room_PM_4_0"
+    pm_10_0:
+      name: "Room PM <10µm Weight concentration"
+      id: "room_PM_10_0"
+    pmc_0_5:
+      name: "Room PM <0.5µm Number concentration"
+      id: "room_PMC_0_5"
+    pmc_1_0:
+      name: "Room PM <1µm Number concentration"
+      id: "room_PMC_1_0"
+    pmc_2_5:
+      name: "Room PM <2.5µm Number concentration"
+      id: "room_PMC_2_5"
+    pmc_4_0:
+      name: "Room PM <4µm Number concentration"
+      id: "room_PMC_4_0"
+    pmc_10_0:
+      name: "Room PM <10µm Number concentration"
+      id: "room_PMC_10_0"
+    pm_size:
+      name: "Typical Particle size"
+      id: "pm_size"
+    address: 0x69
+    update_interval: 10s
+    idle_interval: 1min
+
+# Air quality rating based on the ENS160 Air Quality Index
+text_sensor:
+  - platform: template
+    name: "ENS160 Air Quality Rating"
+    lambda: |-
+      switch ( (int) (id(ens160_air_quality_index).state) ) {
+        case 1: return {"Excellent"};
+        case 2: return {"Good"};
+        case 3: return {"Moderate"};
+        case 4: return {"Poor"};
+        case 5: return {"Unhealthy"};
+        default: return {"Not Available"};
+      }

@@ -204,6 +204,13 @@ void setup() {
   // All published — go to deep sleep
   uint64_t sleep_us = (uint64_t)SLEEP_MINUTES * 60ULL * 1000000ULL;
   Serial.print("Entering deep sleep for "); Serial.print(SLEEP_MINUTES); Serial.println(" minutes");
+  // Enable and force the MAX17048 into ultra-low-power sleep (1uA)
+  // MODE.EnSleep must be set before asserting CONFIG.SLEEP.
+  // The Adafruit library exposes these helpers.
+  maxlipo.enableSleep(true);
+  delay(5); // allow MODE write to settle
+  maxlipo.sleep(true);
+  delay(10); // allow CONFIG write to complete
   esp_sleep_enable_timer_wakeup(sleep_us);
   delay(100);
   esp_deep_sleep_start();
