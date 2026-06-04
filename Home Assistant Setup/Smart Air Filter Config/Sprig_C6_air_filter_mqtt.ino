@@ -135,7 +135,7 @@ int  fanPercent = 100;   // last requested speed (1..100)
 unsigned long lastPublish   = 0;
 const unsigned long PUBLISH_INTERVAL = 5000;  // ms between SPS30 publishes
 unsigned long bootPressStart = 0;
-const unsigned long BOOT_HOLD_MS = 5000;      // hold time for factory reset
+const unsigned long BOOT_HOLD_MS = 3000;      // hold time for factory reset
 
 // SPS30 status
 bool sps30Ok = false;
