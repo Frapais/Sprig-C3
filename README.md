@@ -4,6 +4,10 @@ This is the repository of the **Sprig-C3** project. An ESP32 development board m
 |-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
 | <img src="PCB/Screenshot%20from%202024-04-12%2010-49-21.png" alt="Pinout" width="600"/> | <img src="PCB/048.jpg" alt="photo 3" width="600"/> |
 
+## 🔋 Free ESPHome battery pack
+Building battery-powered ESP32 sensors? Check out this battery-life
+calculator (works with any ESP32 board):
+**→ [Get the free pack](https://sprig-labs.com/esp32-battery-life-calculator/?utm_source=github&utm_medium=readme)**
 
 ## Description
 ### Hardware
